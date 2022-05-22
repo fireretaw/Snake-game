@@ -3,7 +3,6 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
-import java.util.Random;
 
 public class Game extends JPanel {
 
@@ -74,6 +73,7 @@ public class Game extends JPanel {
 		posY = new int[tamanhoMax];
 		comida = new Comida();
 
+		comida.gerarComida();
 		for (int i = 0; i < tamanhoCobra; i++) {
 			cobra[i] = new Cobra();
 		}
@@ -167,8 +167,6 @@ public class Game extends JPanel {
 	// MÉTODOS ---------------------------------------------------------
 	public void testeColisao() {
 
-		Random random = new Random();
-
 		// colisão com a comida
 		if (cobra[0].posX == comida.posX && cobra[0].posY == comida.posY) {
 			// copia ultimas posições da cobra e armazena em posX e posY
@@ -204,14 +202,12 @@ public class Game extends JPanel {
 				cobra[0].velY = cobra[0].velY;
 			}
 
-			comida.posX = (random.nextInt(Principal.LARGURA_TELA / comida.tamanho) * comida.tamanho);
-			comida.posY = (random.nextInt(Principal.ALTURA_TELA / comida.tamanho) * comida.tamanho);
-			
-			//impedir que a comida surja na posição da cobra
+			comida.gerarComida();
+
+			// impedir que a comida surja na posição da cobra
 			for (int i = 0; i < tamanhoCobra; i++) {
 				if (cobra[i].posX == comida.posX && cobra[i].posY == comida.posY) {
-					comida.posX = (random.nextInt(Principal.LARGURA_TELA / comida.tamanho) * comida.tamanho);
-					comida.posY = (random.nextInt(Principal.ALTURA_TELA / comida.tamanho) * comida.tamanho);
+					comida.gerarComida();
 				}
 			}
 
@@ -263,13 +259,17 @@ public class Game extends JPanel {
 		setBackground(Color.LIGHT_GRAY);
 
 		// desenha o personagem na tela
-		// g.fill(bola.posX, bola.posY, bola.raio*2, bola.raio*2);
+
 		for (int i = 0; i < tamanhoCobra; i++) {
-			g.setColor(Color.BLUE);
-			g.fillRect(cobra[i].posX, cobra[i].posY, cobra[i].tamanho, cobra[i].tamanho);
+			if (i == 0) {
+				g.drawImage(cobra[0].cobra_direita, cobra[0].posX, cobra[0].posY, null);
+			} else {
+				g.drawImage(cobra[i].cobra_corpo, cobra[i].posX, cobra[i].posY, null);
+			}
+
 		}
-		g.setColor(Color.GREEN);
-		g.fillRect(comida.posX, comida.posY, comida.tamanho, comida.tamanho);
+
+		g.drawImage(comida.maca, comida.posX, comida.posY, null);
 
 	}
 }
