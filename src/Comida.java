@@ -14,7 +14,7 @@ public class Comida {
 		try {
 			maca = ImageIO.read(getClass().getResource("imgs/maca.png"));
 		} catch (Exception e) { //caso haja algum erro ao carregar imagem
-			System.out.println("Erro ao carregar imagem");
+			System.out.println("Erro ao carregar imagem da maça");
 		}
 
 		tamanho = 20;

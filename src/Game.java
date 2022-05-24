@@ -74,6 +74,7 @@ public class Game extends JPanel {
 		comida = new Comida();
 
 		comida.gerarComida();
+	
 		for (int i = 0; i < tamanhoCobra; i++) {
 			cobra[i] = new Cobra();
 		}
@@ -262,7 +263,7 @@ public class Game extends JPanel {
 
 		for (int i = 0; i < tamanhoCobra; i++) {
 			if (i == 0) {
-				g.drawImage(cobra[0].cobra_direita, cobra[0].posX, cobra[0].posY, null);
+				g.drawImage(cobra[0].obterImg(), cobra[0].posX, cobra[0].posY, null);
 			} else {
 				g.drawImage(cobra[i].cobra_corpo, cobra[i].posX, cobra[i].posY, null);
 			}

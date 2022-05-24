@@ -26,4 +26,17 @@ public class Cobra {
 
 	}
 
+	public BufferedImage obterImg() {
+		if (velY < 0) { // move-se para a cima
+			return cobra_cima;
+		} else if (velY > 0) { //move-se para a baixo
+			return cobra_baixo;
+		}
+		if (velX < 0) { // move-se para a esquerda
+			return cobra_esquerda;
+		} else {
+			return cobra_direita;
+		}
+
+	}
 }
