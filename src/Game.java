@@ -9,6 +9,7 @@ public class Game extends JPanel {
 	// ATRIBUTOS ---------------------------------------------------------
 	public Cobra[] cobra;
 	public Comida comida;
+	public Solo solo;
 	public int tamanhoCobra = 2;
 	public int[] posX;
 	public int[] posY;
@@ -69,11 +70,13 @@ public class Game extends JPanel {
 		});
 
 		cobra = new Cobra[tamanhoMax];
+		comida = new Comida();
+		comida.gerarComida();
+		solo = new Solo();
 		posX = new int[tamanhoMax];
 		posY = new int[tamanhoMax];
-		comida = new Comida();
-
-		comida.gerarComida();
+		
+		
 	
 		for (int i = 0; i < tamanhoCobra; i++) {
 			cobra[i] = new Cobra();
@@ -271,6 +274,7 @@ public class Game extends JPanel {
 		}
 
 		g.drawImage(comida.maca, comida.posX, comida.posY, null);
+		g.drawImage(solo.imgSolo, comida.posX, comida.posY, null);
 
 	}
 }
