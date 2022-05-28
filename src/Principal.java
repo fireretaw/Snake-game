@@ -1,5 +1,4 @@
 import java.awt.Dimension;
-import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
@@ -12,7 +11,7 @@ public class Principal {
 	public Principal() {
 
 		// Criação do objeto que representa a janela da aplicação
-		JFrame janela = new JFrame("Jogo 2D");
+		JFrame janela = new JFrame("Snake Game640");
 		Game game = new Game();
 		// configurar os diversos aspectos da janela
 		game.setPreferredSize(new Dimension(LARGURA_TELA, ALTURA_TELA));

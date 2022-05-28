@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -189,6 +190,7 @@ public class Game extends JPanel {
 			cobra[0].posX = cobra[1].posX;
 			cobra[1].posX = cobra[1].posX - cobra[1].tamanho;// desfaz o movimento horizontal
 			rodando = false;
+
 		}
 		// colisão da bola com o lado esquerdo da tela
 		if (cobra[0].posX < 0) {
@@ -229,7 +231,7 @@ public class Game extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// desenhar os elementos na tela
-		setBackground(Color.LIGHT_GRAY);
+
 		g.drawImage(solo.imgSolo, solo.posX, solo.posY, null);
 		g.drawImage(comida.maca, comida.posX, comida.posY, null);
 
@@ -244,5 +246,18 @@ public class Game extends JPanel {
 
 		}
 
+		// caso ocorra colisão, desenhar tela mostrando fim do jogo e pontuação
+		if (rodando == false) {
+			g.setColor(Color.WHITE);
+			g.fillRect((Principal.LARGURA_TELA / 2) - 100, (Principal.ALTURA_TELA / 2) - 50, 200, 100);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Arial", 1, 19));
+			g.drawString("GAMEOVER", (Principal.LARGURA_TELA / 2) - 55, (Principal.ALTURA_TELA / 2));
+			g.drawString("Pontuação: " + (tamanhoCobra - 2), (Principal.LARGURA_TELA / 2) - 60,
+					(Principal.ALTURA_TELA / 2) + 20);
+			System.out.println("pegou");
+		}
+
 	}
+
 }

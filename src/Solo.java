@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-/* Representa o personagem do jogo */
+/* Representa chão do jogo */
 public class Solo { 
 	public BufferedImage imgSolo;
 	int posX, posY;
