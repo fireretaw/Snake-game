@@ -7,7 +7,7 @@ public class Solo {
 	int posX, posY;
 	
 	public Solo() {
-		// incializa o array de frames
+		//determina posição
 		posX=0;
 		posY=0;
 		

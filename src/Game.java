@@ -109,29 +109,29 @@ public class Game extends JPanel {
 		// checar (a cada quadro) os pressionamentos das teclas
 		// e, com base nisso, modificar as variáveis de velocidade
 
-		if (k_cima == true) { // quando a tecla
-			if (cobra[0].velY > 0) {
+		if (k_cima == true) { // tecla pra cima pressionada
+			if (cobra[0].velY > 0) { // se ela estiver indo para baixo, não faz nada
 			} else {
 				cobra[0].velY = -20;
 				cobra[0].velX = 0;
 			}
 
 		} else if (k_baixo == true) { // tecla para baixo pressionada
-			if (cobra[0].velY < 0) {
+			if (cobra[0].velY < 0) { // se ela estiver indo para cima, não faz nada
 			} else {
 				cobra[0].velY = 20;
 				cobra[0].velX = 0;
 			}
 
 		} else if (k_esquerda == true) { // somente a tecla para esquerda pressionada
-			if (cobra[0].velX > 0) {
+			if (cobra[0].velX > 0) { // se ela estiver indo para direita, não faz nada
 			} else {
 				cobra[0].velX = -20;
 				cobra[0].velY = 0;
 			}
 
 		} else if (k_direita == true) { // somente a tecla para direita pressionada
-			if (cobra[0].velX < 0) {
+			if (cobra[0].velX < 0) {// se ela estiver indo para esquerda, não faz nada
 			} else {
 				cobra[0].velX = 20;
 				cobra[0].velY = 0;
@@ -147,6 +147,8 @@ public class Game extends JPanel {
 			for (int i = tamanhoCobra - 1; i > 0; i--) {
 				cobra[i].posX = cobra[i - 1].posX;
 				cobra[i].posY = cobra[i - 1].posY;
+				cobra[i].velX = cobra[i - 1].velX;
+				cobra[i].velY = cobra[i - 1].velY;
 
 			}
 		}
@@ -187,28 +189,38 @@ public class Game extends JPanel {
 
 		// colisão da bola com o lado direito da tela
 		if (cobra[0].posX + (cobra[0].tamanho) > Principal.LARGURA_TELA) {
-			cobra[0].posX = cobra[1].posX;
-			cobra[1].posX = cobra[1].posX - cobra[1].tamanho;// desfaz o movimento horizontal
+			// desfaz o movimento horizontal
+			for (int i = 0; i < tamanhoCobra; i++) {
+				cobra[i].posX = cobra[i].posX - cobra[i].tamanho;
+
+			}
 			rodando = false;
 
 		}
 		// colisão da bola com o lado esquerdo da tela
 		if (cobra[0].posX < 0) {
-			cobra[0].posX = 0;// desfaz o movimento horizontal
-			cobra[1].posX = cobra[1].tamanho;
+			// desfaz o movimento horizontal
+			for (int i = 0; i < tamanhoCobra; i++) {
+				cobra[i].posX = cobra[i].posX + cobra[i].tamanho;
+			}
 			rodando = false;
 		}
 
 		// colisão da bola com o lado inferior da tela
 		if (cobra[0].posY + (cobra[0].tamanho) > Principal.ALTURA_TELA) {
-			cobra[0].posY = cobra[1].posY;
-			cobra[1].posY = cobra[1].posY - cobra[1].tamanho;// desfaz o movimento vertical
+			// desfaz o movimento vertical
+			for (int i = 0; i < tamanhoCobra; i++) {
+				cobra[i].posY = cobra[i].posY - cobra[i].tamanho;
+
+			}
 			rodando = false;
 		}
 		// colisão da bola com o lado superior da tela
 		if (cobra[0].posY < 0) {
-			cobra[0].posY = 0; // desfaz o movimento vertical
-			cobra[1].posY = cobra[1].tamanho;
+			for (int i = 0; i < tamanhoCobra; i++) {
+				cobra[i].posY = cobra[i].posY + cobra[i].tamanho;
+
+			}
 			rodando = false;
 
 		}
@@ -240,8 +252,10 @@ public class Game extends JPanel {
 		for (int i = 0; i < tamanhoCobra; i++) {
 			if (i == 0) {
 				g.drawImage(cobra[0].obterImg(), cobra[0].posX, cobra[0].posY, null);
+			} else if (i == tamanhoCobra - 1) {
+				g.drawImage(cobra[i].obterImgCauda(), cobra[i].posX, cobra[i].posY, null);
 			} else {
-				g.drawImage(cobra[i].cobra_corpo, cobra[i].posX, cobra[i].posY, null);
+				g.drawImage(cobra[i].corpo_cobra, cobra[i].posX, cobra[i].posY, null);
 			}
 
 		}
