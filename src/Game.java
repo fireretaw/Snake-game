@@ -11,10 +11,6 @@ public class Game extends JPanel {
 	public Comida comida;
 	public Solo solo;
 	public int tamanhoCobra = 2;
-	public int[] posX;
-	public int[] posY;
-	public int velX;
-	public int velY;
 	public int tamanhoMax = (Principal.ALTURA_TELA * Principal.LARGURA_TELA) / (20 * 20);
 	public boolean rodando = true;
 	// os estados de pressionamento das teclas direcionais
@@ -74,8 +70,6 @@ public class Game extends JPanel {
 		comida = new Comida();
 		comida.gerarComida();
 		solo = new Solo();
-		posX = new int[tamanhoMax];
-		posY = new int[tamanhoMax];
 
 		for (int i = 0; i < tamanhoCobra; i++) {
 			cobra[i] = new Cobra();
@@ -146,7 +140,6 @@ public class Game extends JPanel {
 	}
 
 	public void update() {
-
 		// movimenta o corpo da cobra
 		if (cobra[0].velX == 0 && cobra[0].velY == 0) {
 		} else {
@@ -172,40 +165,15 @@ public class Game extends JPanel {
 
 		// colisão com a comida
 		if (cobra[0].posX == comida.posX && cobra[0].posY == comida.posY) {
-			// copia ultimas posições da cobra e armazena em posX e posY
-			for (int i = 0; i < tamanhoCobra; i++) {
-				posX[i] = cobra[i].posX;
-				posY[i] = cobra[i].posY;
-			}
-			// copia ultima velocidade e armazena
-			velX = cobra[0].velX;
-			velY = cobra[0].velY;
-			// após colidir com a comida, aumenta o tamanho
+
 			tamanhoCobra++;
-			// recria a cobra com novo tamanho
-			for (int i = 0; i < tamanhoCobra; i++) {
-				cobra[i] = new Cobra();
-			}
-			// retorna ultimas posições novamente para a cobra
-			for (int i = 0; i < (tamanhoCobra - 1); i++) {
-				cobra[i].posX = posX[i];
-				cobra[i].posY = posY[i];
-			}
-			// cria posição para o tamanho adicional
+			// instancia a nova parte da cobra;
+			cobra[tamanhoCobra - 1] = new Cobra();
+			// passa posição da penultima parte da cobra para a ultima
 			cobra[tamanhoCobra - 1].posX = cobra[tamanhoCobra - 2].posX;
 			cobra[tamanhoCobra - 1].posY = cobra[tamanhoCobra - 2].posY;
 
-			// teste da direção atual da cobra
-			cobra[0].velX = velX;
-			cobra[0].velY = velY;
-
-			if (cobra[0].velX != 0) {
-				cobra[0].velX = cobra[0].velX;
-			} else {
-				cobra[0].velY = cobra[0].velY;
-			}
-
-			comida.gerarComida();
+			comida.gerarComida(); // chama função para gerar a comida aleatoria
 
 			// impedir que a comida surja na posição da cobra
 			for (int i = 0; i < tamanhoCobra; i++) {
@@ -218,27 +186,27 @@ public class Game extends JPanel {
 
 		// colisão da bola com o lado direito da tela
 		if (cobra[0].posX + (cobra[0].tamanho) > Principal.LARGURA_TELA) {
-			cobra[0].posX = Principal.LARGURA_TELA - cobra[0].tamanho;
-			cobra[1].posX = cobra[0].posX - cobra[1].tamanho;// desfaz o movimento horizontal
+			cobra[0].posX = cobra[1].posX;
+			cobra[1].posX = cobra[1].posX - cobra[1].tamanho;// desfaz o movimento horizontal
 			rodando = false;
 		}
 		// colisão da bola com o lado esquerdo da tela
 		if (cobra[0].posX < 0) {
 			cobra[0].posX = 0;// desfaz o movimento horizontal
-			cobra[1].posX = 20;
+			cobra[1].posX = cobra[1].tamanho;
 			rodando = false;
 		}
 
 		// colisão da bola com o lado inferior da tela
 		if (cobra[0].posY + (cobra[0].tamanho) > Principal.ALTURA_TELA) {
-			cobra[0].posY = Principal.ALTURA_TELA - cobra[0].tamanho;
-			cobra[1].posY = cobra[0].posY - cobra[0].tamanho;// desfaz o movimento vertical
+			cobra[0].posY = cobra[1].posY;
+			cobra[1].posY = cobra[1].posY - cobra[1].tamanho;// desfaz o movimento vertical
 			rodando = false;
 		}
 		// colisão da bola com o lado superior da tela
 		if (cobra[0].posY < 0) {
 			cobra[0].posY = 0; // desfaz o movimento vertical
-			cobra[1].posY = 20;
+			cobra[1].posY = cobra[1].tamanho;
 			rodando = false;
 
 		}
@@ -246,6 +214,10 @@ public class Game extends JPanel {
 		// colisão da cobra com o corpo
 		for (int i = tamanhoCobra - 1; i > 0; i--) {
 			if (cobra[0].posX == cobra[i].posX && cobra[0].posY == cobra[i].posY) {
+				cobra[0].posY = cobra[1].posY;
+				cobra[0].posX = cobra[1].posX;
+				cobra[1].posY = cobra[2].posY;
+				cobra[1].posX = cobra[2].posX;
 				rodando = false;
 			}
 		}
